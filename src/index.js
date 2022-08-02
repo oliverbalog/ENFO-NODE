@@ -16,6 +16,7 @@ app.use(function (req, res, next) {
 app.use(express.json());
 app.use(cors({ origin: "https://enfo-vill.hu" }));
 app.post("/", cors(), (req, res) => {
+  try{
   const { name, email, phone, message } = req.body;
 
   main(email, name, phone, message);
@@ -31,6 +32,11 @@ app.post("/", cors(), (req, res) => {
   res.setHeader("Access-Control-Allow-Credentials", true); // If needed
 
   res.json({ response: "Üzenet sikeresen elküldte! Hamarosan visszajelzünk!" });
+  }
+  catch(err) {
+    res.statusCode(200);
+    res.send({err});
+  }
 });
 app.get("/", cors(), (req, res) => {
   res.status(200);
