@@ -5,20 +5,37 @@ var cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "https://enfo-vill.hu"); // update to match the domain you will make the request from
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
 app.use(express.json());
-app.use(cors({origin: '*'}));
+app.use(cors({ origin: "https://enfo-vill.hu" }));
 app.post("/", cors(), (req, res) => {
   const { name, email, phone, message } = req.body;
 
   main(email, name, phone, message);
+  res.setHeader("Access-Control-Allow-Origin", "https://enfo-vill.hu");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+  ); // If needed
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-Requested-With,content-type"
+  ); // If needed
+  res.setHeader("Access-Control-Allow-Credentials", true); // If needed
 
   res.json({ response: "Üzenet sikeresen elküldte! Hamarosan visszajelzünk!" });
 });
-app.get("/",cors(),(req,res)=>{
-    res.status(200);
-    res.send("Success")
-})
+app.get("/", cors(), (req, res) => {
+  res.status(200);
+  res.send("Success");
+});
 
 app.listen(PORT, (error) => {
   if (!error)
