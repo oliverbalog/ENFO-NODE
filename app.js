@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3000;
 
 
 app.use(express.json());
-app.use(cors({origin: 'https://enfo-vill.hu/'}));
+app.use(cors({origin: '*'}));
 app.post("/", cors(), (req, res) => {
   const { name, email, phone, message } = req.body;
 
