@@ -16,26 +16,27 @@ app.use(function (req, res, next) {
 app.use(express.json());
 app.use(cors({ origin: "https://enfo-vill.hu" }));
 app.post("/sendmail", cors(), (req, res) => {
-  try{
-  const { name, email, phone, message } = req.body;
-    console.log("request: "+req.toString())
-  main(email, name, phone, message);
-  res.setHeader("Access-Control-Allow-Origin", "https://enfo-vill.hu");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-  ); // If needed
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "X-Requested-With,content-type"
-  ); // If needed
-  res.setHeader("Access-Control-Allow-Credentials", true); // If needed
+  try {
+    const { name, email, phone, message } = req.body;
+    console.log("request: " + req.toString());
+    main(email, name, phone, message);
+    res.setHeader("Access-Control-Allow-Origin", "https://enfo-vill.hu");
+    res.setHeader(
+      "Access-Control-Allow-Methods",
+      "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+    ); // If needed
+    res.setHeader(
+      "Access-Control-Allow-Headers",
+      "X-Requested-With,content-type"
+    ); // If needed
+    res.setHeader("Access-Control-Allow-Credentials", true); // If needed
 
-  res.json({ response: "Üzenet sikeresen elküldte! Hamarosan visszajelzünk!" });
-  }
-  catch(err) {
+    res.json({
+      response: "Üzenet sikeresen elküldve! Hamarosan visszajelzünk!",
+    });
+  } catch (err) {
     res.statusCode(200);
-    res.send({err});
+    res.send({ err });
   }
 });
 app.get("/", cors(), (req, res) => {
@@ -71,9 +72,7 @@ function main(email, name, phone, message) {
       to: "info@enfo-vill.hu", // list of receivers
       subject: "ENFO-Vill ajánlatkérés", // Subject line
       text: message + "\n" + "Tel.: \t" + phone + "\n" + "Küldte: \t" + name, // plain text body
-      html: `<p>${
-        message + "\n" + "Tel.: \t" + phone + "\n" + "Küldte: \t" + name
-      }</p>`, // html body
+      html: `<p>${message}</p> <p>Tel.:${phone}</p> <p>Email:${email}</p> <p>Név.:${name}</p>`, // html body
     };
     // send mail with defined transport object
     let info = await transporter.sendMail(jsonContent);
