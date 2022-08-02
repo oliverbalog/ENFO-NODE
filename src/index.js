@@ -18,7 +18,7 @@ app.use(cors({ origin: "https://enfo-vill.hu" }));
 app.post("/sendmail", cors(), (req, res) => {
   try{
   const { name, email, phone, message } = req.body;
-
+    console.log("request: "+req);
   main(email, name, phone, message);
   res.setHeader("Access-Control-Allow-Origin", "https://enfo-vill.hu");
   res.setHeader(
@@ -78,7 +78,6 @@ function main(email, name, phone, message) {
     // send mail with defined transport object
     let info = await transporter.sendMail(jsonContent);
 
-    console.log(jsonContent);
     console.log("Message sent: %s", info.messageId);
     // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
   }
