@@ -15,7 +15,7 @@ app.use(function (req, res, next) {
 });
 app.use(express.json());
 app.use(cors({ origin: "https://enfo-vill.hu" }));
-app.post("/", cors(), (req, res) => {
+app.post("/sendmail", cors(), (req, res) => {
   try{
   const { name, email, phone, message } = req.body;
 
