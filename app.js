@@ -14,6 +14,10 @@ app.post("/", cors(), (req, res) => {
 
   res.json({ response: "Üzenet sikeresen elküldte! Hamarosan visszajelzünk!" });
 });
+app.get("/",cors(),(req,res)=>{
+    res.status(200);
+    res.send("Success")
+})
 
 app.listen(PORT, (error) => {
   if (!error)
