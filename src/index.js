@@ -14,34 +14,28 @@ app.use(function (req, res, next) {
   next();
 });
 app.use(express.json());
-app.use(
-  cors({
-    origin: "https://enfo-vill.hu",
-    allowedHeaders: ["sessionId", "Content-Type","Origin","Accept"],
-  })
-);
+app.use(cors({ origin: "https://enfo-vill.hu" }));
 app.post("/sendmail", cors(), (req, res) => {
-  try {
-    const { name, email, phone, message } = req.body;
-    console.log("request: " + req.stringify().toString());
-    main(email, name, phone, message);
-    res.setHeader("Access-Control-Allow-Origin", "https://enfo-vill.hu");
-    res.setHeader(
-      "Access-Control-Allow-Methods",
-      "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-    ); // If needed
-    res.setHeader(
-      "Access-Control-Allow-Headers",
-      "X-Requested-With,content-type"
-    ); // If needed
-    res.setHeader("Access-Control-Allow-Credentials", true); // If needed
+  try{
+  const { name, email, phone, message } = req.body;
+    console.log("request: "+req.toString())
+  main(email, name, phone, message);
+  res.setHeader("Access-Control-Allow-Origin", "https://enfo-vill.hu");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+  ); // If needed
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-Requested-With,content-type"
+  ); // If needed
+  res.setHeader("Access-Control-Allow-Credentials", true); // If needed
 
-    res.json({
-      response: "Üzenet sikeresen elküldte! Hamarosan visszajelzünk!",
-    });
-  } catch (err) {
+  res.json({ response: "Üzenet sikeresen elküldte! Hamarosan visszajelzünk!" });
+  }
+  catch(err) {
     res.statusCode(200);
-    res.send({ err });
+    res.send({err});
   }
 });
 app.get("/", cors(), (req, res) => {
