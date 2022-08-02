@@ -52,9 +52,7 @@ app.listen(PORT, (error) => {
 });
 
 function main(email, name, phone, message) {
-  console.log("asdad");
   async function mail() {
-    console.log("mail fn");
     // Generate test SMTP service account from ethereal.email
     // Only needed if you don't have a real mail account for testing
 
@@ -68,9 +66,7 @@ function main(email, name, phone, message) {
         pass: "@Nokia530", // generated ethereal password
       },
     });
-
-    // send mail with defined transport object
-    let info = await transporter.sendMail({
+    let jsonContent = {
       from: email, // sender address
       to: "info@enfo-vill.hu", // list of receivers
       subject: "ENFO-Vill ajánlatkérés", // Subject line
@@ -78,8 +74,11 @@ function main(email, name, phone, message) {
       html: `<p>${
         message + "\n" + "Tel.: \t" + phone + "\n" + "Küldte: \t" + name
       }</p>`, // html body
-    });
+    };
+    // send mail with defined transport object
+    let info = await transporter.sendMail(jsonContent);
 
+    console.log(jsonContent);
     console.log("Message sent: %s", info.messageId);
     // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
   }
